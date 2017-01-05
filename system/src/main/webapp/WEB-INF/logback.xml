@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+  <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+  <property name="LOG_HOME" value="${care.root}/logs" />
+  <property scope="context" name="FILE_NAME" value="app_runtime" />
+  <timestamp key="byDay" datePattern="yyyy-MM-dd" />
+  <!-- 控制台输出 -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- 过滤掉 TRACE 级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度;%msg:日志消息;%n:换行符 -->
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <!-- 按照每天生成日志文件 -->
+  <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_HOME}/${FILE_NAME}_info.log</file>
+    <!-- 日志文件最大的大小 触发 -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>${LOG_HOME}/${FILE_NAME}_info.%i.log.zip</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>3</maxIndex>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <MaxFileSize>10MB</MaxFileSize>
+    </triggeringPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度;%msg:日志消息;%n:换行符 -->
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+    </encoder>
+    <!-- 过滤器，只记录WARN级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_HOME}/${FILE_NAME}_warn.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!--日志文件输出的文件名 -->
+      <FileNamePattern>${LOG_HOME}/${FILE_NAME}_warn.%d{yyyy-MM-dd}.zip</FileNamePattern>
+      <!--日志文件最大保留历史数(一个月) -->
+      <MaxHistory>30</MaxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度;%msg:日志消息;%n:换行符 -->
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+    </encoder>
+    <!-- 过滤器，只记录WARN级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>WARN</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_HOME}/${FILE_NAME}_error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!--日志文件输出的文件名 -->
+      <FileNamePattern>${LOG_HOME}/${FILE_NAME}_error.%d{yyyy-MM-dd}.zip</FileNamePattern>
+      <!--日志文件最大保留历史数(一个月) -->
+      <MaxHistory>30</MaxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度;%msg:日志消息;%n:换行符 -->
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+    </encoder>
+    <!-- 过滤器，只记录ERROR级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <!--Mybatis log configure -->
+  <logger name="java.sql" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.apache.ibatis" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.apache.commons" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.apache.http" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.apache.shiro" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.mybatis.spring" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.springframework" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="net.sf.ehcache" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="core.plugin.shiro.dao" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.quartz" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.atmosphere" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="io.netty" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.redisson" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="com.alibaba.druid.pool" level="WARN" additivity="false">
+    <appender-ref ref="STDOUT" />
+  </logger>
+
+  <!-- 日志输出级别 -->
+  <root level="DEBUG">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE_INFO" />
+    <appender-ref ref="FILE_WARN" />
+    <appender-ref ref="FILE_ERROR" />
+  </root>
+</configuration>
