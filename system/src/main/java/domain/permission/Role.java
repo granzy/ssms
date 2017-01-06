@@ -1,6 +1,6 @@
 package domain.permission;
 
-import domain.BaseEntity;
+import base.entity.BaseEntity;
 
 /**
  * \* User: gzy

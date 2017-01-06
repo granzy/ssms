@@ -1,6 +1,6 @@
 package domain.user;
 
-import domain.BaseEntity;
+import base.entity.BaseEntity;
 
 /**
  * \* User: gzy

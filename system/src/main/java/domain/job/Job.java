@@ -1,4 +1,4 @@
-package domain.organization;
+package domain.job;
 
 import base.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -7,22 +7,16 @@ import plugin.entity.Treeable;
 /**
  * \* User: gzy
  * \* Date: 2017/1/5
- * \* Time: 10:55
+ * \* Time: 16:14
  * \* Description:
  * \
  */
-public class Organization extends BaseEntity<Long> implements Treeable<Long> {
-
+public class Job extends BaseEntity<Long> implements Treeable<Long> {
 
     /**
      * 标题
      */
     private String name;
-
-    /**
-     * 组织机构类型 默认 分公司
-     */
-    private OrganizationType type = OrganizationType.branch_office;
     /**
      * 父路径
      */
@@ -47,10 +41,10 @@ public class Organization extends BaseEntity<Long> implements Treeable<Long> {
      */
     private Boolean show = Boolean.FALSE;
 
-    public Organization() {
+    public Job() {
     }
 
-    public Organization(Long id) {
+    public Job(Long id) {
         setId(id);
     }
 
@@ -62,15 +56,8 @@ public class Organization extends BaseEntity<Long> implements Treeable<Long> {
         this.name = name;
     }
 
-    public OrganizationType getType() {
-        return type;
-    }
-
-    public void setType(OrganizationType type) {
-        this.type = type;
-    }
-
     public Long getParentId() {
+
         return parentId;
     }
 

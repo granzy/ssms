@@ -1,4 +1,4 @@
-package domain;
+package base.entity;
 
 import java.io.Serializable;
 
