@@ -26,4 +26,14 @@
         SELECT
         * FROM SYS_USER WHERE username = #{username}
     </select>
+
+    <select id="findByEmail" resultType="User">
+        SELECT
+        * FROM SYS_USER WHERE email = #{email}
+    </select>
+
+    <select id="findByMobilePhoneNumber" resultType="User">
+        SELECT
+        * FROM SYS_USER WHERE mobile_phone_number = #{mobilePhoneNumber}
+    </select>
 </mapper>

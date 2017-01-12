@@ -1,17 +1,30 @@
 package service.userAuth.impl;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
+import domain.permission.Permission;
 import domain.permission.Role;
+import domain.permission.RoleResourcePermission;
 import domain.user.User;
 import domain.user.UserOrganizationJob;
+import mappers.permission.PermissionMapper;
+import mappers.permission.RoleResourcePermissionMapper;
+import mappers.resource.ResourceMapper;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import service.auth.AuthService;
 import service.group.GroupService;
 import service.job.JobService;
 import service.organization.OrganizationService;
+import service.permission.RoleService;
+import service.resource.ResourceService;
 import service.user.UserOrganizationJobService;
 import service.userAuth.UserAuthService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +35,8 @@ import java.util.Set;
  * \* Description:
  * \
  */
-public class UserAuthServiceImpl implements UserAuthService{
+@Service
+public class UserAuthServiceImpl implements UserAuthService {
 
     @Resource
     private UserOrganizationJobService userOrganizationJobService;
@@ -38,6 +52,21 @@ public class UserAuthServiceImpl implements UserAuthService{
 
     @Resource
     private AuthService authService;
+
+    @Resource
+    private RoleService roleService;
+
+    @Resource
+    private RoleResourcePermissionMapper roleResourcePermissionMapper;
+
+    @Resource
+    private ResourceMapper resourceMapper;
+
+    @Resource
+    private PermissionMapper permissionMapper;
+
+    @Resource
+    private ResourceService resourceService;
 
     @Override
     public Set<Role> findRoles(User user) {
@@ -81,6 +110,60 @@ public class UserAuthServiceImpl implements UserAuthService{
         //1.5、获取组角色
         Set<Long> roleIds = authService.findRoleIds(userId, groupIds, organizationIds, jobIds, organizationJobIds);
 
-        return null;
+        Set<Role> roles = roleService.findShowRoles(roleIds);
+
+        return roles;
     }
+
+    @Override
+    public Set<String> findStringPermissions(User user) {
+        Set<String> permissions = Sets.newHashSet();
+        /*TODO验证事务传播
+        Set<Role> roles = ((UserAuthService) AopContext.currentProxy()).findRoles(user);
+        */
+        Set<Role> roles = findRoles(user);
+        RoleResourcePermission roleResourcePermission = new RoleResourcePermission();
+        List<RoleResourcePermission> rrpList = new ArrayList<>();
+        for (Role role : roles) {
+            roleResourcePermission.setRoleId(role.getId());
+            rrpList = roleResourcePermissionMapper.findListByCondition(roleResourcePermission);
+            for (RoleResourcePermission rrp : rrpList) {
+                domain.resource.Resource resource = resourceMapper.findOne(rrp.getResourceId());
+
+                String actualResourceIdentity = resourceService.findActualResourceIdentity(resource);
+
+                //不可用 即没查到 或者标识字符串不存在
+                if (resource == null || StringUtils.isEmpty(actualResourceIdentity) || Boolean.FALSE.equals(resource.getShow())) {
+                    continue;
+                }
+                String permissionIds_str = rrp.getPermissionIds();
+                if (!StringUtils.isEmpty(permissionIds_str)) {
+                    String[] permissionIds_arr = permissionIds_str.split(",");
+                    for (String permissionIdStr : permissionIds_arr) {
+                        Long permissionId = Long.getLong(permissionIdStr);
+                        Permission permission = permissionMapper.findOne(permissionId);
+
+                        //不可用
+                        if (permission == null || "0".equals(permission.getIsShow())) {
+                            continue;
+                        }
+                        permissions.add(actualResourceIdentity + ":" + permission.getPermission());
+                    }
+                }
+            }
+        }
+        return permissions;
+    }
+
+    public Set<String> findStringRoles(User user) {
+        Set<Role> roles = ((UserAuthService) AopContext.currentProxy()).findRoles(user);
+        return Sets.newHashSet(Collections2.transform(roles, new Function<Role, String>() {
+            @Override
+            public String apply(Role input) {
+                return input.getRole();
+            }
+        }));
+    }
+
+
 }

@@ -9,4 +9,6 @@ public interface UserService {
 
     public User findByUsername(String username);
 
+    public User login(String username, String password);
+
 }

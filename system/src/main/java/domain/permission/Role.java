@@ -9,7 +9,7 @@ import base.entity.BaseEntity;
  * \* Description:
  * \
  */
-public class Role extends BaseEntity {
+public class Role extends BaseEntity<Long> {
 
     /**
      * 前端显示名称

@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import domain.group.Group;
 import mappers.group.GroupMapper;
 import mappers.group.GroupRelationMapper;
+import org.springframework.stereotype.Service;
 import service.group.GroupService;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import java.util.Set;
  * \* Description:
  * \
  */
+@Service
 public class GroupServiceImpl implements GroupService {
 
     @Resource

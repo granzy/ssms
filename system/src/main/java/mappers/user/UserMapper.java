@@ -12,4 +12,8 @@ import domain.user.User;
 public interface UserMapper {
 
     User findByUsername(String userName);
+
+    User findByEmail(String email);
+
+    User findByMobilePhoneNumber(String mobilePhoneNumber);
 }

@@ -1,5 +1,6 @@
 package service.group.impl;
 
+import org.springframework.stereotype.Service;
 import service.group.GroupRelationService;
 
 /**
@@ -9,5 +10,6 @@ import service.group.GroupRelationService;
  * \* Description:
  * \
  */
+@Service
 public class GroupRelationServiceImpl implements GroupRelationService {
 }

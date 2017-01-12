@@ -3,6 +3,7 @@ package service.auth.impl;
 import com.google.common.collect.Sets;
 import domain.user.UserOrganizationJob;
 import mappers.auth.AuthMapper;
+import org.springframework.stereotype.Service;
 import service.auth.AuthService;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import java.util.*;
  * \* Description:
  * \
  */
+@Service
 public class AuthServiceImpl implements AuthService {
 
     @Resource

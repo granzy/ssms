@@ -11,4 +11,8 @@ import java.util.Set;
 public interface UserAuthService {
 
     public Set<Role> findRoles(User user);
+
+    public Set<String> findStringRoles(User user);
+
+    public Set<String> findStringPermissions(User user);
 }
