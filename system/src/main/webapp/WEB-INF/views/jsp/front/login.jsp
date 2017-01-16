@@ -16,17 +16,18 @@
                                 Log In...
                             </div>
                         </div>
-                        <form>
+                        <ssms:showMessage></ssms:showMessage>
+                        <form action="" method="post">
                             <div class="form-group">
-                                <label for="inputEmail">Email address</label>
-                                <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
+                                <label for="username">用户名</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter email">
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword">Password</label>
-                                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                <label for="password">密码</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                             </div>
                             <div class="login-button text-center">
-                                <input type="submit" class="btn btn-primary" value="Login">
+                                <input type="submit" class="btn btn-primary" value="登录">
                             </div>
                         </form>
                     </div>

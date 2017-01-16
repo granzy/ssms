@@ -1,5 +1,6 @@
 package web.front;
 
+import base.annotation.CurrentUser;
 import domain.user.User;
 import mappers.user.UserStatusHistoryMapper;
 import org.apache.shiro.SecurityUtils;
@@ -30,7 +31,7 @@ public class LoginFormController {
     private UserStatusHistoryMapper userStatusHistoryMapper;
 
     @RequestMapping("/login")
-    public String login(HttpServletRequest request, ModelMap model){
+    public String login(HttpServletRequest request, @CurrentUser User user1,@CurrentUser String aa, ModelMap model){
 
         //表示退出
         if (!StringUtils.isEmpty(request.getParameter("logout"))) {

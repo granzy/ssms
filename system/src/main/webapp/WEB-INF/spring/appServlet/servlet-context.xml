@@ -10,7 +10,12 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+    <!--<argument-resolvers>自定义参数解析器-->
+	<annotation-driven>
+		<argument-resolvers>
+			<beans:bean class="base.bind.CurrentUserMethodArgumentResolver"/>
+		</argument-resolvers>
+	</annotation-driven>
     <!--first step:RequestMappingHandlerMapping Looking up handler method for path
     if did not find handler method for the path ,will user container default Servlet
     一般Web应用服务器默认的Servlet名称是"default"，因此DefaultServletHttpRequestHandler可以找到它
@@ -29,4 +34,6 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="web" />
+
+
 </beans:beans>

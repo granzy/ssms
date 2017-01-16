@@ -12,9 +12,10 @@
     <!-- realm -->
     <!--depends-on="userRepository, userLastOnlineRepository, userStatusHistoryRepository, springUtils" -->
     <bean id="userRealm" class="shiro.realm.UserRealm">
-        <!-- TODO用切面缓存代理了 此处就不缓存了 -->
+        <!-- TODO用切面缓存代理了 此处就不缓存了
         <property name="authenticationCachingEnabled" value="false"/>
         <property name="authorizationCachingEnabled" value="false"/>
+         -->
     </bean>
 
     <!-- filter -->
@@ -35,6 +36,13 @@
         <!--<property name="rememberMeManager" ref="rememberMeManager"/>-->
     </bean>
 
+    <!--提取系统用户（User） 验证用户是否合法的过滤器（如是否删除了 是否锁定了） -->
+    <bean id="sysUserFilter" class="shiro.web.filter.user.SysUserFilter">
+        <property name="userBlockedUrl" value="${shiro.user.blocked.url}"/>
+        <property name="userNotfoundUrl" value="${shiro.user.notfound.url}"/>
+        <property name="userUnknownErrorUrl" value="${shiro.user.unknown.error.url}"/>
+    </bean>
+
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="${shiro.login.url}"/>
@@ -44,12 +52,14 @@
         <property name="filters">
             <util:map>
                 <entry key="myAuthc" value-ref="formAuthenticationFilter"/>
+                <entry key="sysUser" value-ref="sysUserFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
             <value>
                 /login = myAuthc
-                /** = myAuthc
+                /resources/** = anon
+                /** = myAuthc,sysUser
             </value>
         </property>
     </bean>

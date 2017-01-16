@@ -69,7 +69,6 @@ public class UserRealm  extends AuthorizingRealm {
         } catch (UserNotExistsException e) {
             throw new UnknownAccountException(e.getMessage(), e);
         } catch (UserPasswordNotMatchException e) {
-            e.printStackTrace();
             throw new AuthenticationException(e.getMessage(), e);
         } catch (UserPasswordRetryLimitExceedException e) {
             throw new ExcessiveAttemptsException(e.getMessage(), e);
