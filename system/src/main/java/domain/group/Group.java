@@ -29,7 +29,7 @@ public class Group extends BaseEntity<Long> {
     /**
      * 是否显示/可用
      */
-    private Boolean show = Boolean.FALSE;
+    private Boolean isShow = Boolean.FALSE;
 
 
     public String getName() {
@@ -57,11 +57,10 @@ public class Group extends BaseEntity<Long> {
     }
 
     public Boolean getShow() {
-        return show;
+        return isShow;
     }
 
     public void setShow(Boolean show) {
-        this.show = show;
+        isShow = show;
     }
-
 }

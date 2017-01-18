@@ -25,7 +25,7 @@ public class Role extends BaseEntity<Long> {
      */
     private String description;
 
-    private Boolean show = Boolean.FALSE;
+    private Boolean isShow = Boolean.FALSE;
 
     public String getName() {
         return name;
@@ -44,11 +44,11 @@ public class Role extends BaseEntity<Long> {
     }
 
     public Boolean getShow() {
-        return show;
+        return isShow;
     }
 
     public void setShow(Boolean show) {
-        this.show = show;
+        isShow = show;
     }
 
     public String getDescription() {

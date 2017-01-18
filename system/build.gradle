@@ -64,6 +64,9 @@ dependencies {
             "org.apache.shiro:shiro-spring:$shiro",
             "org.mybatis.caches:mybatis-ehcache:$mybatisEhcache"
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    providedCompile "javax.servlet:javax.servlet-api:$servlet",
+            "javax.servlet.jsp:javax.servlet.jsp-api:$jsp",
+            "javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:$jstl"
 }
 
 tasks.withType(JavaCompile) {

@@ -19,28 +19,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mappers.resource.ResourceMapper">
-    <cache/>
-
-    <select id="findOne" resultType="Resource">
+<mapper namespace="mappers.group.GroupRelationMapper">
+    <cache />
+    <select id="findGroupIds" resultType="long" parameterType="map">
         SELECT
-        * FROM sys_resource WHERE id = #{id}
-    </select>
-
-    <select id="findAll" resultType="Resource">
-        SELECT
-        * FROM sys_resource
-    </select>
-
-    <select id="findAllWithCondition" resultType="Resource">
-        SELECT
-        * FROM sys_resource
+        group_id FROM sys_group_relation
         <where>
-            <if test="show != null">
-                is_show = #{show}
+            <if test="userId != null">
+                AND user_id = #{userId}
+                OR
+                (start_user_id &lt;= #{userId} and end_user_id &gt;= #{userId})
+            </if>
+            <if test="organizationIds != null and organizationIds.size > 0">
+                or organization_id IN
+                <foreach item="item" index="index" collection="organizationIds"
+                                   open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            </if>
+            <if test="isShow != null">
+                and EXISTS (
+                select 1 from sys_group where is_show = 1 and
+                id = sys_group_relation.group_id
+                )
             </if>
         </where>
-        order by parent_id DESC ,weight desc
     </select>
-
 </mapper>

@@ -140,7 +140,7 @@ public class UserAuthServiceImpl implements UserAuthService {
                 if (!StringUtils.isEmpty(permissionIds_str)) {
                     String[] permissionIds_arr = permissionIds_str.split(",");
                     for (String permissionIdStr : permissionIds_arr) {
-                        Long permissionId = Long.getLong(permissionIdStr);
+                        Long permissionId = Long.parseLong(permissionIdStr);
                         Permission permission = permissionMapper.findOne(permissionId);
 
                         //不可用

@@ -18,4 +18,6 @@ public interface ResourceMapper {
 
     public List<Resource> findAll();
 
+    public List<Resource> findAllWithCondition(Resource resource);
+
 }

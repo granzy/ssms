@@ -86,12 +86,15 @@
 			<tx:method name="doClear*" propagation="REQUIRES_NEW"/>
 			<tx:method name="doSend*" propagation="REQUIRES_NEW"/>
 			<tx:method name="doBatchSave*" propagation="REQUIRES_NEW"/>
-
+			<!--
+			配置read-only为true，则在这些方法中进行增删改会发生异常,不过对oracle好像不支持(未考证)
 			<tx:method name="get*" propagation="REQUIRED" read-only="true"/>
 			<tx:method name="count*" propagation="REQUIRED" read-only="true"/>
 			<tx:method name="find*" propagation="REQUIRED" read-only="true"/>
 			<tx:method name="list*" propagation="REQUIRED" read-only="true"/>
+
 			<tx:method name="*" propagation="REQUIRED"/>
+			-->
 		</tx:attributes>
 	</tx:advice>
 

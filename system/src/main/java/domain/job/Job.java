@@ -39,7 +39,7 @@ public class Job extends BaseEntity<Long> implements Treeable<Long> {
     /**
      * 是否显示
      */
-    private Boolean show = Boolean.FALSE;
+    private Boolean isShow = Boolean.FALSE;
 
     public Job() {
     }
@@ -139,13 +139,12 @@ public class Job extends BaseEntity<Long> implements Treeable<Long> {
     }
 
     public Boolean getShow() {
-        return show;
+        return isShow;
     }
 
     public void setShow(Boolean show) {
-        this.show = show;
+        isShow = show;
     }
-
 
     /**
      * 根节点默认图标 如果没有默认 空即可
